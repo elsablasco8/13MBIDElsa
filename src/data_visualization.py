@@ -4,7 +4,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
-print("ESTE SCRIPT SE ESTÁ EJECUTANDO")
 def visualize_data(datos_creditos: str = "data/raw/datos_creditos.csv",
                     datos_tarjetas: str = "data/raw/datos_tarjetas.csv",
                     output_dir: str = "docs/figures/") -> None:
@@ -20,11 +19,8 @@ def visualize_data(datos_creditos: str = "data/raw/datos_creditos.csv",
     Returns:
         None
     """
-    print(" Script iniciado")
-    print("Ruta actual:", Path.cwd())
     # Crear el directorio de salida si no existe
     output_dir = Path(output_dir)
-    print(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     
     # Lectura de los datos
@@ -65,7 +61,19 @@ def visualize_data(datos_creditos: str = "data/raw/datos_creditos.csv",
     # TODO: Agregar al menos dos (2) gráficos adicionales que consideren variables.
     # OPCIÓN EXTRA (ejemplo):  agregar la generación del reporte con ydata-profiling.
     ##################################################################################
+    
 
+    #Distribución de las variables categóricas del dataset de créditos
+    categorical_cols = df_creditos.select_dtypes(include=["object"]).columns.drop("falta_pago")
+    for col in categorical_cols:
+        plt.figure(figsize=(10, 8))
+        order = df_creditos[col].value_counts().index
+        sns.countplot(y=col, data=df_creditos, order=order)
+        plt.title(f"Distribución de {col}")
+        plt.xlabel("Cantidad")
+        plt.ylabel(col)
+        plt.savefig(output_dir / f'distribucion_categoricas_creditos_{col}')
+        plt.close()
 
 if __name__ == "__main__":
     visualize_data()
