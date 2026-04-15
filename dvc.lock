@@ -13,8 +13,8 @@ stages:
       size: 845190
     - path: src/data_visualization.py
       hash: md5
-      md5: 8e611a73c923f86b496ac4f9f0b92f8b
-      size: 2640
+      md5: 27427e1b4688342eb0a6c7bd5f8e5060
+      size: 3207
     outs:
     - path: docs/figures/correlation_heatmap_creditos.png
       hash: md5
@@ -28,3 +28,45 @@ stages:
       hash: md5
       md5: 91716c7711df7c1c08d65aca4fcb7bd9
       size: 21596
+  test_pandera:
+    cmd: powershell -Command "pytest --html=docs/report_basico.html 
+      --self-contained-html test/test_data_quality_py.py -v; exit 0"
+    deps:
+    - path: data/raw/datos_creditos.csv
+      hash: md5
+      md5: 3b26edd22e8827f890d7cd32efe475b7
+      size: 663047
+    - path: data/raw/datos_tarjetas.csv
+      hash: md5
+      md5: 9e197c893925601cd447c81256e8cf07
+      size: 845190
+    - path: test/test_data_quality_py.py
+      hash: md5
+      md5: 41ae4b793b3ae758c317df6cd590ef5a
+      size: 6190
+    outs:
+    - path: docs/report_basico.html
+      hash: md5
+      md5: d064f798d5e79773bcb9593ef78c604d
+      size: 47025
+  test_ge:
+    cmd: powershell -Command "pytest --html=docs/report_ge.html 
+      --self-contained-html test/test_data_quality_ge.py -v; exit 0"
+    deps:
+    - path: data/raw/datos_creditos.csv
+      hash: md5
+      md5: 3b26edd22e8827f890d7cd32efe475b7
+      size: 663047
+    - path: data/raw/datos_tarjetas.csv
+      hash: md5
+      md5: 9e197c893925601cd447c81256e8cf07
+      size: 845190
+    - path: test/test_data_quality_ge.py
+      hash: md5
+      md5: 582a7f8cbe05e79307ea7d8f74b8a24d
+      size: 3566
+    outs:
+    - path: docs/report_ge.html
+      hash: md5
+      md5: 9d56e6629512b0b9cc19c4a3902209e6
+      size: 33328
