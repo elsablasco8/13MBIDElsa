@@ -183,6 +183,7 @@ if __name__ == "__main__":
 
 ####################################################################################
 # TODO: seleccionar para este script el mejor modelo según su experimentación previa
+#Según la experimentación previa el mejor modelo es el logístico.
 # EXTRA: en la fase previa, trabajando en la libreta una opción de mejora es utilizar
 #       una téncica como GridSearchCV o RandomizedSearchCV para optimizar 
 #       hiperparámetros del modelo seleccionado
