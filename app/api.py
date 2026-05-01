@@ -3,6 +3,9 @@ from pydantic import BaseModel, Field
 import pandas as pd
 import joblib
 from typing import Dict
+import mlflow
+print("MLFOW", mlflow.__version__)
+
 
 app = FastAPI(
     title="Modelo de Predicción de Mora en Créditos",
@@ -33,6 +36,9 @@ class PredictionRequest(BaseModel):
     capacidad_pago: float = Field(..., description="Capacidad de pago")
     operaciones_mensuales: float = Field(..., description="Operaciones mensuales")
     presion_financiera: float = Field(..., description="Presión financiera")
+    gasto_promedio_operacion: float = Field(..., description="Gasto_promedio_operacion")
+    estabilidad_laboral: float = Field(..., description="Estabilidad_laboral")
+
 
     class Config:
         json_schema_extra = {
@@ -44,7 +50,7 @@ class PredictionRequest(BaseModel):
                 "objetivo_credito": "EDUCACIÓN",
                 "pct_ingreso": 0.1,
                 "tasa_interes": 11.14,
-                "estado_credito": 0,
+                "estado_credito": 0,                           
                 "antiguedad_cliente": 39.0,
                 "estado_civil": "CASADO",
                 "estado_cliente": "ACTIVO",
@@ -55,7 +61,9 @@ class PredictionRequest(BaseModel):
                 "personas_a_cargo": 3.0,
                 "capacidad_pago": 0.104167,
                 "operaciones_mensuales": 3.5,
-                "presion_financiera": 0.17125
+                "presion_financiera": 0.17125,
+                "gasto_promedio_operacion":27.238095,
+                "estabilidad_laboral":0.238095
             }
         }
 
@@ -70,6 +78,10 @@ MODEL_PATH = "models/prod_model.pkl"
 
 try:
     model = joblib.load(MODEL_PATH)
+    print("TIPO MODELO:", type(model))
+    print("PATH MODELO:", MODEL_PATH)
+    print("*****************************************")
+    print(type(model))
     print("Modelo cargado exitosamente.")
 except FileNotFoundError:
     print(f"Error: No se encontró el modelo en la ruta {MODEL_PATH}. Asegúrate de que el modelo esté entrenado y guardado correctamente.")
